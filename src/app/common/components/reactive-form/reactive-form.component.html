@@ -1,0 +1,183 @@
+<!-- Button trigger modal -->
+<img src="https://tpc.googlesyndication.com/daca_images/simgad/10010848908143606074" width="1350" height="245" alt="image"> 
+
+<div class="d-grid gap-2 mt-3">
+  <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Signup</button>
+  <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addProdectModal">Add Product</button>
+
+</div>
+
+
+<div class="row">
+  <div *ngFor="let ele of products; let i = index" class="col">
+    <div class="card mt-5" style="width: 18rem; height: 25rem">
+      <img src="{{ele.images[0]}}" class="card-img-top" alt="images" style="width: 18rem; height: 10rem">
+      <div class="card-body">
+        <h5 class="card-title">{{ ele.category }}</h5>
+        <p>{{ ele.description }}</p>
+        <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+        <div class="d-grid gap-2 col-6 mx-auto">
+          <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addProdectModal" (click)="updateProduct(ele.id)">Update</button>
+          <button class="btn btn-primary" type="button" (click)="deleteItem(ele.id)">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+ <!-- Add Prodect Modal -->
+<div class="modal fade" id="addProdectModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Product Form</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="productForm" (ngSubmit)="addProduct(productForm.value)">
+          <div class="mb-3">
+              <label for="id1" class="form-label">Title</label>
+              <input type="text" formControlName="title" class="form-control" id="id1" aria-describedby="emailHelp">
+              <!-- <p *ngIf="title && title.invalid && title.touched" class="text-danger">Title is required</p> -->
+          </div>
+          <div class="mb-3">
+              <label for="id2" class="form-label">Description</label>
+              <input type="text" formControlName="description" class="form-control" id="id2" aria-describedby="emailHelp">
+              <!-- <p *ngIf="description && description.invalid && description.touched"  class="text-danger">Description is required</p> -->
+          </div>
+          <div class="mb-3">
+            <label for="id3" class="form-label">Price</label>
+            <input type="number" formControlName="price" class="form-control" id="id3" aria-describedby="emailHelp">
+            <!-- <p *ngIf="price && price.invalid && price.touched"  class="text-danger">Price is not valid</p> -->
+          </div>
+          <div class="mb-3">
+            <label for="id3" class="form-label">Discount Percentage</label>
+            <input type="number" formControlName="discountPercentage" class="form-control" id="id3" aria-describedby="emailHelp">
+           </div>
+
+           <div class="mb-3">
+            <label for="id3" class="form-label">Rating</label>
+            <input type="number" formControlName="rating" class="form-control" id="id3" aria-describedby="emailHelp">
+           </div>
+
+           <div class="mb-3">
+            <label for="id3" class="form-label">Stock</label>
+            <input type="number" formControlName="stock" class="form-control" id="id3" aria-describedby="emailHelp">
+           </div>
+
+           <div class="mb-3">
+            <label for="id3" class="form-label">brand</label>
+            <input type="text" formControlName="brand" class="form-control" id="id3" aria-describedby="emailHelp">
+           </div>
+
+           <div class="mb-3">
+            <label for="id3" class="form-label">category</label>
+            <input type="text" formControlName="category" class="form-control" id="id3" aria-describedby="emailHelp">
+           </div>
+
+           <div class="mb-3">
+            <label for="id3" class="form-label">Thumbnail</label>
+            <input type="text" formControlName="thumbnail" class="form-control" id="id3" aria-describedby="emailHelp">
+           </div>
+
+           <div class="mb-3">
+            <label for="id3" class="form-label">Images</label>
+            <input type="file" formControlName="images" class="form-control" id="id3" aria-describedby="emailHelp">
+           </div>
+          
+          <button type="submit" class="btn btn-primary">{{ editMode ? 'Update Product' : 'Add Product' }}</button>
+        </form>
+      </div>
+       
+    </div>
+  </div>
+</div>
+
+<!-- Update Modal -->
+<!-- <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Product</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+  <!-- Signup Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Reactive Form</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="signupForm" (ngSubmit)="userData(signupForm.value)">
+                <div class="mb-3">
+                    <label for="id1" class="form-label">First Name</label>
+                    <input type="text" formControlName="fName" class="form-control" id="id1" aria-describedby="emailHelp">
+                    <p *ngIf="fName && fName.invalid && fName.touched" class="text-danger">First Name is required</p>
+                </div>
+                <div class="mb-3">
+                    <label for="id2" class="form-label">Last Name</label>
+                    <input type="text" formControlName="lName" class="form-control" id="id2" aria-describedby="emailHelp">
+                    <p *ngIf="lName && lName.invalid && lName.touched"  class="text-danger">Last Name is required</p>
+                </div>
+                <div class="mb-3">
+                  <label for="id3" class="form-label">Email address</label>
+                  <input type="email" formControlName="email" class="form-control" id="id3" aria-describedby="emailHelp">
+                  <p *ngIf="email && email.invalid && email.touched"  class="text-danger">Email is not valid</p>
+                </div>
+                <div class="form-floating">
+                    <textarea class="form-control" formControlName="comments" placeholder="Leave a comment here" id="id4" style="height: 100px"></textarea>
+                    <label for="id4">Comments</label>
+                    <p *ngIf="comments && comments.invalid && comments.touched"  class="text-danger">Minimum 5 Character is required</p>
+                </div>
+                <div class="mb-3 form-check">
+                  <input type="checkbox" formControlName="checkbox" class="form-check-input" id="exampleCheck1">
+                  <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                </div>
+                <button [disabled]="signupForm.invalid" type="submit" class="btn btn-primary">Submit</button>
+              </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

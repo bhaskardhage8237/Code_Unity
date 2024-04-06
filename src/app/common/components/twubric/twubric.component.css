@@ -1,0 +1,15 @@
+.btn-group-full-width {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  
+  .full-width-datepicker {
+    display: flex;
+    width: 100%;
+  }
+  
+   .full-width-datepicker-field {
+    flex-grow: 1;
+  }

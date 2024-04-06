@@ -1,0 +1,89 @@
+ 
+<div class="content_wrap">
+    <div class="container-fluid">
+      <div class="breadcrumb_wrap">
+        <div class="page_title">
+          <h5 class="mb-0">Sort By</h5>
+        </div>
+      </div>
+      
+      <!-- Sort Buttons -->
+      <div class="row mb-4">
+        <div class="col">
+          <!-- Full-width button group -->
+          <div class="btn-group btn-group-full-width" role="group" aria-label="Sort By">
+            <button type="button" class="btn btn-secondary" (click)="sortGrid('twubric.total')">Twubric Score</button>
+            <button type="button" class="btn btn-secondary" (click)="sortGrid('twubric.friends')">Friends</button>
+            <button type="button" class="btn btn-secondary" (click)="sortGrid('twubric.influence')">Influence</button>
+            <button type="button" class="btn btn-secondary" (click)="sortGrid('twubric.chirpiness')">Chirpiness</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Date Filter -->
+  <div class="row mb-4">
+    <div class="col">
+      <h5>Joined Twitter between</h5>
+      
+      <div class="full-width-datepicker">
+        <!-- Start Date -->
+        <mat-form-field appearance="fill" class="full-width-datepicker-field">
+          <mat-label>Start Date:</mat-label>
+          <input matInput [matDatepicker]="startDatePicker" [(ngModel)]="startDate" (dateChange)="applyDateFilter()">
+          <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #startDatePicker></mat-datepicker>
+        </mat-form-field>
+  
+        <!-- End Date -->
+        <mat-form-field appearance="fill" class="full-width-datepicker-field ml-3">
+          <mat-label>End Date:</mat-label>
+          <input matInput [matDatepicker]="endDatePicker" [(ngModel)]="endDate" (dateChange)="applyDateFilter()">
+          <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #endDatePicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  
+      <!-- User Grid -->
+      <div class="row">
+        <div class="col-4 mt-4" *ngFor="let item of userList">
+          <table class="table table-bordered" style="border-collapse: collapse; border: 2px solid black">
+            <thead>
+              <tr>
+                <th scope="col" colspan="3">{{ item.username }} <span class="float-end">{{ item.twubric.total }}</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td scope="col" style="text-align: center;">
+                  <span style="display: block;">{{ item.twubric.friends }}</span>
+                  <span style="display: block;">Friends</span>
+                </td>
+                <td scope="col" style="text-align: center;">
+                  <span style="display: block;">{{ item.twubric.influence }}</span>
+                  <span style="display: block;">Influence</span>
+                </td>
+                <td scope="col" style="text-align: center;">
+                  <span style="display: block;">{{ item.twubric.chirpiness }}</span>
+                  <span style="display: block;">Chirpiness</span>
+                </td>
+              </tr>
+              <tr>
+                <th colspan="1">{{ item.join_date}}</th>
+                <th colspan="2" style="text-align: right;">
+                  <button class="btn btn-primary" (click)="removeUser(item)">Remove</button>
+                </th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+  
+  

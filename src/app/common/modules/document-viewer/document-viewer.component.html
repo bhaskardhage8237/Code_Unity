@@ -1,0 +1,38 @@
+<button
+*ngIf="isButton"
+(click)="opened = true"
+kendoTooltip
+position="top"
+class="top"
+title="View File"
+type="button"
+kendoButton
+fillMode="flat"
+>
+<i class="fa-solid fa-eye"></i>
+</button>
+<a class="pe-auto" *ngIf="!isButton" (click)="opened = true">
+<app-file-icon *ngIf="showFileIconInBtn" [fileName]="fileName"></app-file-icon
+> {{ buttonName }}
+</a>
+<kendo-dialog *ngIf="opened" (close)="opened = false">
+<kendo-dialog-titlebar>
+  {{ fileName }}
+</kendo-dialog-titlebar>
+<div *ngIf="isFileUrl">
+  <ngx-doc-viewer
+    viewer="url"
+    [url]="url"
+    style="width: 600px; height: 300px"
+  ></ngx-doc-viewer>
+</div>
+<div *ngIf="!isFileUrl">
+  <img *ngIf="isImageFile()" [src]="url" style="height: 300px" />
+  <ngx-doc-viewer
+    *ngIf="isDocumentFile()"
+    viewer="google"
+    [url]="url"
+    style="width: 600px; height: 300px"
+  ></ngx-doc-viewer>
+</div>
+</kendo-dialog>

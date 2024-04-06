@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hello World</h1>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.  Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates, voluptatum pariatur iusto doloribus consequuntur voluptas cumque tempore doloremque porro, explicabo vitae officiis suscipit animi repellendus quam fuga minus tenetur. Iure. Alias sequi aliquid harum exercitationem perspiciatis veritatis optio ducimus expedita odit? Minus doloribus dicta saepe veniam possimus repudiandae sed alias nisi debitis.</p>
+
+    <button id="btn" onclick="toggleHide()">Show/Hide</button>
+
+    <script>
+
+        function toggleHide(){
+            let btn = document.getElementById('btn');
+            let para = document.getElementById('para');
+            if(para.style.display != 'none'){
+                para.style.display = 'none';
+            }
+            else {
+                para.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

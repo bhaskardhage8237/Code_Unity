@@ -17,7 +17,9 @@ export class PracticeFormComponent {
   })
 
 
-
+  loginUser(){
+    console.log(this.loginForm.value)
+  }
 
 
 

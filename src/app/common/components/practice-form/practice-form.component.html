@@ -1,12 +1,13 @@
 
    
     <div class="container w-50">
-      <form [formGroup]="loginForm">
+      <form [formGroup]="loginForm" (ngSubmit)="loginUser()">
          <label for="name">User Name</label>
         <input type="text" class="form-control" id="name" formControlName="user">
   
         <label for="password">Password</label>
         <input type="text" class="form-control" id="password" formControlName="password">
+        <button class="btn btn-primary mt-3">submit</button>
      </form>
     </div>
 

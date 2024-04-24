@@ -26,6 +26,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { PiechartComponent } from './common/components/piechart/piechart.component';
 import { ReactiveFormComponent } from './common/components/reactive-form/reactive-form.component';
 import { TepmlateFormComponent } from './common/components/tepmlate-form/tepmlate-form.component';
+import { PracticeFormComponent } from './common/components/practice-form/practice-form.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +38,8 @@ import { TepmlateFormComponent } from './common/components/tepmlate-form/tepmlat
      MaterialComponent,
      PiechartComponent,
      ReactiveFormComponent,
-     TepmlateFormComponent
+     TepmlateFormComponent,
+     PracticeFormComponent
      
   ],
   imports: [

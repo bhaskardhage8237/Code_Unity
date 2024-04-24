@@ -63,11 +63,6 @@ getAll(){
   this.http.put(`https://jsonplaceholder.typicode.com/posts/${id}`, value).subscribe();
  }
 
- 
-
-
-hello(){}
-
 
 
 

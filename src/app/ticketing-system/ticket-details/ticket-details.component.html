@@ -1,1 +1,511 @@
-<p>ticket-details works!</p>
+ 
+<!-- wrap ticket">
+<div class="container-fluid">
+  <div *ngIf="dataLoaded" class="row">
+    <div class="col-xl-12">
+      <div class="breadcrumb_wrap mb-3">
+        <div class="page_title">
+          <h2 class="mb-0">Ticket Details</h2>
+        </div>
+        <div class="breadcrumb_block ms-auto" *ngIf="isApplicant">
+          <button
+            kendoButton
+            class="all_btn secondary_btn form_btn"
+            routerLink="/tickets"
+          >
+            Back to Ticket List
+          </button>
+        </div>
+        <div class="breadcrumb_block ms-auto" *ngIf="!isApplicant">
+          <button
+            kendoButton
+            class="all_btn secondary_btn form_btn"
+            routerLink="/my-admin/tickets"
+          >
+            Back to Ticket List
+          </button>
+        </div>
+      </div>
+      <div class="page_info mb-3">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+          ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat.
+        </p>
+      </div>
+    </div>
+    <div class="col-xl-12">
+      <div class="ticket_overview">
+        <div class="overview_box mb-3">
+          <kendo-panelbar>
+            <kendo-panelbar-item title="Overview" [expanded]="true">
+              <ng-template kendoPanelBarContent>
+                <div class="overview_expand">
+                  <div class="row">
+                    <div
+                      class="col-xxl-4 col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 mb-4"
+                    >
+                      <div class="box">
+                        <label>Ticket Number</label>
+                        <span>{{ info.id }}</span>
+                      </div>
+                    </div>
+                    <div
+                      class="col-xxl-4 col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 mb-4"
+                    >
+                      <div class="box">
+                        <label>Current Status</label>
+                        <span>{{ info.status_name }}</span>
+                      </div>
+                    </div>
+                    <div
+                      *ngIf="!isReporter"
+                      class="col-xxl-4 col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 mb-4"
+                    >
+                      <div class="box">
+                        <label>Current Assignee</label>
+                        <span>{{ info.role_name }}</span>
+                      </div>
+                    </div>
+                    <div
+                      class="col-xxl-4 col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 mb-4"
+                    >
+                      <div class="box">
+                        <label>Request Type</label>
+                        <span>{{ info.request_type_name }}</span>
+                      </div>
+                    </div>
+                    <div
+                      class="col-xxl-4 col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 mb-4"
+                    >
+                      <div class="box">
+                        <label>Topic</label>
+                        <span>{{ info.request_topic_name }}</span>
+                      </div>
+                    </div>
+                    <div
+                      class="col-xxl-4 col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 mb-4"
+                    >
+                      <div class="box">
+                        <label>Sub Topic</label>
+                        <span>{{ info.request_sub_topic_name }}</span>
+                      </div>
+                    </div>
+
+                    <div
+                      *ngIf="isAdmin"
+                      class="col-xxl-4 col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 mb-4"
+                    >
+                      <div class="box">
+                        <label>Submitted by</label>
+                        <span>{{
+                          isReporter ? "Me" : info.created_by_name
+                        }}</span>
+                      </div>
+                    </div>
+                    <div
+                      class="col-xxl-4 col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 mb-4"
+                    >
+                      <div class="box">
+                        <label>Submitted On</label>
+                        <span>{{
+                          info.created_at | date : "MMM d, y h:mm a"
+                        }}</span>
+                      </div>
+                    </div>
+                    <div
+                      class="col-xxl-4 col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 mb-4"
+                    >
+                      <div class="box">
+                        <label>Last Updated On</label>
+                        <span>{{
+                          info.updated_at | date : "MMM d, y h:mm a"
+                        }}</span>
+                      </div>
+                    </div>
+
+                    <div class="col-xl-12 mb-4">
+                      <div class="box">
+                        <label>Summary</label>
+                        <span>{{ info.summary }}</span>
+                      </div>
+                    </div>
+                    <div class="col-xl-12 mb-4">
+                      <div class="box">
+                        <label>Description</label>
+                        <span
+                          ng-bind="textFromJSON"
+                          style="white-space: pre-wrap"
+                          >{{ info.description }}</span
+                        >
+                      </div>
+                    </div>
+                    <div class="col-xl-12">
+                      <div class="box">
+                        <label>Attachement</label>
+                        <span *ngIf="info.path && info.file_name">
+                          <app-document-viewer
+                            [url]="globals.baseAPIFolderUrl + '/' + info.path"
+                            [fileName]="info.file_name"
+                            [isButton]="false"
+                            [buttonName]="info.file_name"
+                            [showFileIconInBtn]="true"
+                          ></app-document-viewer>
+                        </span>
+                        <span *ngIf="!info.path"> NA </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </kendo-panelbar-item>
+          </kendo-panelbar>
+        </div>
+
+        <div *ngIf="history.length > 0" class="history_box mb-3">
+          <kendo-panelbar>
+            <kendo-panelbar-item title="History" [expanded]="true">
+              <ng-template kendoPanelBarContent>
+                <div class="history_expand">
+                  <ng-container *ngFor="let d of history">
+                    <div class="row mb-3">
+                      <div class="col-xl-12">
+                        <div class="box">
+                          <div class="history_left">
+                            <span class="name mb-2"
+                              >By
+                              <small class="role">{{
+                                getActionBy(d)
+                              }}</small></span
+                            >
+                            <span class="date">{{
+                              d.created_at | date : "MMM d, y h:mm a"
+                            }}</span>
+                          </div>
+                          <div class="history_right">
+                            <div class="row">
+                              <ng-container
+                                *ngFor="let da of d.action_history"
+                              >
+                                <div
+                                  *ngIf="
+                                    (da.type_id == 1 || da.type_id == 2) &&
+                                    !isReporter
+                                  "
+                                  class="col-xl-6 mb-3"
+                                >
+                                  <span>
+                                    <strong *ngIf="da.type_id == 1"
+                                      >Status changed to:</strong
+                                    >
+                                    <strong *ngIf="da.type_id == 2"
+                                      >Assigned to:</strong
+                                    >
+                                    {{ da.value_name }}
+                                  </span>
+                                </div>
+                                <div
+                                  *ngIf="da.type_id == 3"
+                                  class="clearfix"
+                                ></div>
+                                <hr
+                                  *ngIf="
+                                    da.type_id == 3 &&
+                                    d.action_history.length > 1 &&
+                                    !isReporter
+                                  "
+                                />
+                                <div
+                                  *ngIf="da.type_id == 3"
+                                  class="notes col-xl-12"
+                                >
+                                  <div *ngIf="da.value" class="desc mb-3">
+                                    <label>Note</label>
+                                    <small
+                                      *ngIf="da.is_for_internal_purpose == 1"
+                                    >
+                                      (For Internal Purpose)</small
+                                    >
+                                     
+
+                                    <div *ngIf="da.value" class="desc mb-3">
+                                      <ng-container *ngIf="checkUrl(da.value); else nonUrlContent">
+                                         
+                                        <p [innerHTML]="replaceUrlWithLink(da.value)"></p>
+                                      </ng-container>
+                                      <ng-template #nonUrlContent>
+                                        <p style="white-space: pre-wrap">{{ da.value }}</p>
+                                      </ng-template>
+                                    </div>
+
+                                    
+                              
+                                  </div>
+                                  <div
+                                    *ngIf="
+                                      da.action_attachment &&
+                                      da.action_attachment.path &&
+                                      da.action_attachment.file_name
+                                    "
+                                    class="attachment"
+                                  >
+                                    <label>Attachement:</label>&nbsp;
+                                    <app-document-viewer
+                                      [url]="
+                                        globals.baseAPIFolderUrl +
+                                        '/' +
+                                        da.action_attachment.path
+                                      "
+                                      [fileName]="
+                                        da.action_attachment.file_name
+                                      "
+                                      [isButton]="false"
+                                      [buttonName]="
+                                        da.action_attachment.file_name
+                                      "
+                                      [showFileIconInBtn]="true"
+                                    ></app-document-viewer>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+              </ng-template>
+            </kendo-panelbar-item>
+          </kendo-panelbar>
+        </div>
+
+        <div
+          *ngIf="!showTakeAction"
+          class="col-xl-12 d-flex align-items-center justify-content-center my-4"
+        >
+          <button
+            *ngIf="
+              isReviewer && info.status_id != '4' && info.status_id != '6'
+            "
+            kendoButton
+            class="all_btn primary_btn form_btn"
+            (click)="openTakeAction(1)"
+          >
+            Take Action
+          </button>
+          <button
+            *ngIf="isReporter && info.status_id == '1'"
+            kendoButton
+            class="all_btn secondary_btn form_btn me-2"
+            (click)="cancelTicket()"
+          >
+            Cancel the ticket
+          </button>
+          <button
+            *ngIf="isReporter && info.status_id == '3'"
+            kendoButton
+            class="all_btn primary_btn form_btn"
+            (click)="openTakeAction(2)"
+          >
+            Respond
+          </button>
+          <button
+            *ngIf="
+              isReporter &&
+              (info.status_id == '4' || info.status_id == '6') &&
+              isReopenEligible()
+            "
+            kendoButton
+            class="all_btn primary_btn form_btn"
+            (click)="openTakeAction(3)"
+          >
+            Re-open
+          </button>
+        </div>
+
+        <div *ngIf="showTakeAction" class="action_box">
+          <kendo-stacklayout [gap]="15" [orientation]="'vertical'">
+            <kendo-card width="auto">
+              <kendo-card-header class="k-hstack justify-content-between">
+                {{ actionTitle }}
+              </kendo-card-header>
+              <kendo-card-body>
+                <div class="action_expand">
+                  <div class="row">
+                    <div
+                      *ngIf="actionType == 1"
+                      class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-3"
+                    >
+                      <div class="box">
+                        <div class="more_actions mt-3">
+                          <label>Change Status to</label>
+                          <kendo-combobox
+                            [(ngModel)]="actionForm.status_id"
+                            [data]="ddStatusFiltered"
+                            [filterable]="true"
+                            (filterChange)="ddFilterStatus($event)"
+                            placeholder="Select a Status"
+                            textField="name"
+                            valueField="id"
+                            [valuePrimitive]="true"
+                            [loading]="ddStatusLoader"
+                          ></kendo-combobox>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      *ngIf="actionType == 1"
+                      class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-4"
+                    >
+                      <div class="box">
+                        <div class="more_actions mt-3">
+                          <label>Reassign to</label>
+                          <kendo-combobox
+                            [(ngModel)]="actionForm.assignee_id"
+                            [data]="ddRolesFiltered"
+                            [filterable]="true"
+                            (filterChange)="ddFilterRoles($event)"
+                            placeholder="Select a Assignee"
+                            textField="name"
+                            valueField="id"
+                            [valuePrimitive]="true"
+                            [loading]="ddRolesLoader"
+                          ></kendo-combobox>
+                        </div>
+                      </div>
+                    </div>
+                    <hr *ngIf="actionType == 1" />
+                    <div class="col-xl-12 my-4">
+                      <div class="box">
+                        <div class="note_wrap k-form">
+                          <div class="col-xl-12 mb-4">
+                            <span
+                              *ngIf="isReporter && info.status_id == '3'"
+                              class="text-danger mendatory"
+                              >*</span
+                            >
+                            <label class="mb-2"
+                              >{{
+                                isReporter && info.status_id == "3"
+                                  ? "Respond"
+                                  : "Note"
+                              }}
+                            </label>
+
+
+                            <kendo-editor
+                              [(ngModel)]="actionForm.note"
+                              placeholder="Enter a note here"
+                              [maxlength]="noteMaxLength"
+                              
+                            >
+                            <kendo-toolbar #toolbar [overflow]="true">
+                              <kendo-toolbar-buttongroup>
+                                <kendo-toolbar-button kendoEditorBoldButton></kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorUnderlineButton></kendo-toolbar-button>
+                            </kendo-toolbar-buttongroup>
+                            <kendo-toolbar-colorpicker kendoEditorForeColor></kendo-toolbar-colorpicker>
+
+                              <kendo-textarea-suffix class="custom-styling">
+                                <span class="counter">{{
+                                  (actionForm.note
+                                    ? actionForm.note.length
+                                    : 0) +
+                                    "/" +
+                                    noteMaxLength +
+                                    " characters"
+                                }}</span>
+                              </kendo-textarea-suffix>
+                            </kendo-toolbar>
+                            </kendo-editor>
+
+                            
+
+                          </div>
+                          <div class="col-12 mb-4">
+                            <label class="mb-2">
+                              Attachment <small>(Only one file)</small>
+                            </label>
+                            <kendo-fileselect
+                              [(ngModel)]="actionForm.attachment"
+                              [restrictions]="globals.allowedFileRestriction"
+                              [accept]="globals.allowedFileExtAcceptStr"
+                              [name]="'Attachments'"
+                              [multiple]="false"
+                              #myFileSelect="kendoFileSelect"
+                            >
+                              <kendo-fileselect-messages
+                                [dropFilesHere]="
+                                  globals.fileSelectDropFilesHere"
+                                [select]="globals.fileSelectSelect"
+                              >
+                              </kendo-fileselect-messages
+                            ></kendo-fileselect>
+                          </div>
+                          <div *ngIf="actionType == 1" class="col-12 d-flex">
+                            <input
+                              [(ngModel)]="actionForm.is_for_internal_purpose"
+                              [disabled]="
+                                !(
+                                  actionForm.note &&
+                                  actionForm.note.length > 0
+                                )
+                              "
+                              type="checkbox"
+                              id="que"
+                              class="mt-0"
+                              kendoCheckBox
+                            />
+                            <label
+                              class="k-checkbox-label ps-1 mb-0"
+                              for="que"
+                              >For internal purpose only</label
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="col-xl-12 d-flex align-items-center justify-content-center"
+                    >
+                      <button
+                        kendoButton
+                        class="all_btn secondary_btn form_btn me-2"
+                        (click)="showTakeAction = false"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        [disabled]="!isFormValid()"
+                        kendoButton
+                        class="all_btn primary_btn form_btn"
+                        (click)="takeAction()"
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </kendo-card-body>
+            </kendo-card>
+          </kendo-stacklayout>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div> -->
+
+
+
+
+
+
+
+
+
+
+
+

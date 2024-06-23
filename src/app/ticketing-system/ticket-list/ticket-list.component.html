@@ -1,1 +1,481 @@
-<p>ticket-list works!</p>
+
+
+
+<!-- <div class="content_wrap ticket">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="breadcrumb_wrap mb-4">
+            <div class="page_title">
+              <h2 class="mb-0">Tickets</h2>
+            </div>
+            <div *ngIf="ticket_list.length > 0 && isApplicant" class="breadcrumb_block ms-auto">
+              <button
+                *ngIf="!globals.isAdmin"
+                kendoButton
+                class="all_btn primary_btn form_btn"
+                routerLink="add"
+              >
+                Open a Ticket
+              </button>
+            </div>
+          </div>
+          <div *ngIf="ticket_list.length > 0" class="page_info mb-4">
+            <p>For the detail view of ticket please click on ticket number.</p>
+          </div>
+        </div>
+        <div class="col-xl-12">
+          <div class="scrollable_area">
+            <div
+              *ngIf="ticket_list.length > 0"
+              class="res_tbl"
+              kendoTooltip
+              position="top"
+            >
+              <kendo-grid
+                [data]="gridData"
+                [sortable]="true"
+                [sort]="sort"
+                (sortChange)="sortChange($event)"
+                [pageSize]="gridPageSize"
+                [skip]="gridSkip"
+                [pageable]="true"
+                (pageChange)="onPageChange($event)"
+                scrollable="none"
+              >
+                <ng-template kendoGridToolbarTemplate>
+                  <input
+                    class="search_box small"
+                    [placeholder]="gridSearchPlaceholder"
+                    kendoTextBox
+                    (input)="loadGridData()"
+                    [(ngModel)]="searchText"
+                  />
+                  <div class="ds_right">
+                    <div class="more_actions">
+                      <button
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasRight"
+                        aria-controls="offcanvasRight"
+                        class="top all_btn primary_btn form_btn ms-5"
+                        title="Advance Filter"
+                      >
+                        Advance Filter
+                      </button>
+                    </div>
+  
+                    <div class="advance_filter ms-3" kendoTooltip position="top">
+                      <div
+                        class="offcanvas offcanvas-end k-form"
+                        tabindex="-1"
+                        id="offcanvasRight"
+                        aria-labelledby="offcanvasRightLabel"
+                      >
+                        <div class="offcanvas-header mt-5">
+                          <h5 class="offcanvas-title" id="offcanvasRightLabel">
+                            Advance Filter
+                          </h5>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="offcanvas"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div class="offcanvas-body" id="advancesearch">
+                          <div class="advance_filter_options">
+                            <div
+                              class="col-md-12 mb-4"
+                              *ngIf="dd_R_Type.length > 0"
+                            >
+                              <label class="default_lbl">Request Type</label>
+                              <kendo-multiselect
+                                [(ngModel)]="advFilter.type"
+                                [checkboxes]="true"
+                                [autoClose]="false"
+                                [data]="dd_R_Type"
+                                [clearButton]="false"
+                                textField="name"
+                                valueField="id"
+                                [filterable]="
+                                  dd_R_Type.length > globals.ddFilterLength
+                                "
+                                (filterChange)="ddFilterRequest($event)"
+                                placeholder="Select Request Type"
+                                class="flex-fill"
+                              ></kendo-multiselect>
+                            </div>
+                            <div
+                              class="col-md-12 mb-4"
+                              *ngIf="dd_Topic.length > 0"
+                            >
+                              <label class="default_lbl">Topic</label>
+                              <kendo-multiselect
+                                [(ngModel)]="advFilter.topic"
+                                [checkboxes]="true"
+                                [autoClose]="false"
+                                [data]="dd_Topic"
+                                [clearButton]="false"
+                                textField="name"
+                                valueField="id"
+                                [filterable]="
+                                  dd_Topic.length > globals.ddFilterLength
+                                "
+                                (filterChange)="ddFilterTopic($event)"
+                                placeholder="Select Topic"
+                                class="flex-fill"
+                              ></kendo-multiselect>
+                            </div>
+                            <div
+                              class="col-md-12 mb-4"
+                              *ngIf="dd_Sub_Topic.length > 0"
+                            >
+                              <label class="default_lbl">Sub Topic</label>
+                              <kendo-multiselect
+                                [(ngModel)]="advFilter.Sub_Topic"
+                                [checkboxes]="true"
+                                [autoClose]="false"
+                                [data]="dd_Sub_Topic"
+                                [clearButton]="false"
+                                textField="name"
+                                valueField="id"
+                                [filterable]="
+                                  dd_Sub_Topic.length > globals.ddFilterLength
+                                "
+                                (filterChange)="ddFilterSubTopic($event)"
+                                placeholder="Select Sub Topic"
+                                class="flex-fill"
+                              ></kendo-multiselect>
+                            </div>
+                            <div
+                              class="col-md-12 mb-4"
+                              *ngIf="dd_Status.length > 0"
+                            >
+                              <label class="default_lbl">Status</label>
+                              <kendo-multiselect
+                                [(ngModel)]="advFilter.status"
+                                [checkboxes]="true"
+                                [autoClose]="false"
+                                [data]="dd_Status"
+                                [clearButton]="false"
+                                textField="name"
+                                valueField="id"
+                                [filterable]="
+                                  dd_Status.length > globals.ddFilterLength
+                                "
+                                (filterChange)="ddFilterStatus($event)"
+                                placeholder="Select Status"
+                                class="flex-fill"
+                              ></kendo-multiselect>
+                            </div>
+                          </div>
+                          <div
+                            class="col-xl-12 d-flex align-items-center justify-content-center mt-5"
+                          >
+                            <button
+                              (click)="resetAdvanceFilter()"
+                              data-bs-toggle="offcanvas"
+                              data-bs-target="#offcanvasRight"
+                              aria-controls="offcanvasRight"
+                              class="all_btn secondary_btn me-2"
+                            >
+                              Reset
+                            </button>
+                            <button
+                              (click)="resetPage(); loadGridData()"
+                              data-bs-toggle="offcanvas"
+                              data-bs-target="#offcanvasRight"
+                              aria-controls="offcanvasRight"
+                              class="all_btn primary_btn me-2"
+                            >
+                              Submit
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+  
+                  <div class="col-xl-12" *ngIf="isAdvanceFiltered()">
+                    <div
+                      class="search_count_navigation d-flex justify-content-between mt-4"
+                    >
+                      <div class="search_count">
+                        <span *ngIf="gridData.total > 0 && !isAdvanceFiltered()"
+                          >Showning {{ gridData.total }} results</span
+                        >
+                        <span *ngIf="isAdvanceFiltered()"
+                          >{{ gridData.total }} result found for</span
+                        >
+                        <strong
+                          class="text-danger"
+                          *ngIf="gridData.total == 0 && !isAdvanceFiltered()"
+                          >No result found based on search.</strong
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    *ngIf="isAdvanceFiltered()"
+                    class="advance_filter_result search_results top mt-3"
+                  >
+                    
+                    <ng-container *ngFor="let item of advFilterProp | keyvalue">
+                      <span *ngIf="item.value.filtered" class="search_area">
+                        <strong>{{ item.value.label }}:</strong>
+                        <span class="search_inner">
+                          <ng-container *ngIf="!isArray(item.value.value)">
+                            <span class="inner_filter">
+                              {{ item.value.value }}
+                            </span>
+                          </ng-container>
+                          <ng-container *ngIf="isArray(item.value.value)">
+                            <span
+                              *ngFor="let metatag of item.value.value; index as i"
+                              class="inner_filter"
+                            >
+                              {{ metatag.name }}
+                              <button
+                                kendoButton
+                                fillMode="flat"
+                                [title]="'Clear ' + metatag.name"
+                                class="text-danger"
+                                (click)="resetAdvanceFilter(item.key, i)"
+                              >
+                                <i class="fa-solid fa-xmark"></i>
+                              </button>
+                            </span>
+                          </ng-container>
+                          <button
+                            kendoButton
+                            fillMode="flat"
+                            [title]="'Clear ' + item.value.label"
+                            class="clear_all text-danger"
+                            (click)="resetAdvanceFilter(item.key)"
+                          >
+                            <i class="fa-solid fa-xmark"></i>
+                          </button>
+                        </span>
+                      </span>
+                    </ng-container>
+                  </div>
+                </ng-template>
+  
+                <kendo-grid-column
+                  field="id"
+                  title="Ticket Number"
+                  [class]="'cellCustomClass'"
+                  [headerStyle]="{ width: '8%' }"
+                  [style]="{ width: '8%' }"
+                  media="(min-width: 769px)"
+                >
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                    <a [routerLink]="['view/', dataItem.id]">{{ dataItem.id }}</a>
+                  </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column
+                  field="request_type_name"
+                  title="Request Type"
+                  [headerStyle]="{ width: '18%' }"
+                  [style]="{ width: '18%' }"
+                  media="(min-width: 769px)"
+                >
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                    {{ dataItem.request_type_name }}
+                    <span class="d-block pt-1" style="font-size: 14px"
+                      ><strong>Topic:</strong>
+                      {{ dataItem.request_topic_name }}
+                    </span>
+                    <span class="d-block pt-1" style="font-size: 14px"
+                      ><strong>Sub Topic:</strong>
+                      {{ dataItem.request_sub_topic_name }}
+                    </span>
+                  </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column
+                  field="summary"
+                  title="Summary"
+                  [headerStyle]="{ width: '35%' }"
+                  [style]="{ width: '35%' }"
+                  media="(min-width: 769px)"
+                >
+                </kendo-grid-column>
+                <kendo-grid-column
+                  field="status_name"
+                  title="Current Status"
+                  [headerStyle]="{ width: '10%' }"
+                  [style]="{ width: '10%' }"
+                  media="(min-width: 769px)"
+                >
+                </kendo-grid-column>
+                <kendo-grid-column
+                  field="created_by_name"
+                  title="Submitted by"
+                  [headerStyle]="{ width: '10%' }"
+                  [style]="{ width: '10%' }"
+                  media="(min-width: 769px)"
+                  *ngIf="globals.isItAdmin || globals.isAdmin"
+                >
+                </kendo-grid-column>
+  
+                <kendo-grid-column
+                  field="user_role"
+                  title="Assigned To"
+                  [headerStyle]="{ width: '10%' }"
+                  [style]="{ width: '10%' }"
+                  media="(min-width: 769px)"
+                  *ngIf="globals.isAdmin"
+                >
+                </kendo-grid-column>
+  
+                <kendo-grid-column
+                  *ngIf="this.globals.isProfessional"
+                  field="created_at"
+                  title="Submitted On"
+                  [headerStyle]="{ width: '15%' }"
+                  [style]="{ width: '15%' }"
+                  media="(min-width: 769px)"
+                >
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                    <span>{{
+                      dataItem.created_at | tzdate | date : "MMM d, y h:mm a"
+                    }}</span>
+                  </ng-template>
+                </kendo-grid-column>
+  
+                <kendo-grid-column
+                  *ngIf="!globals.isProfessional"
+                  field="ticket_open_since"
+                  title="Since Opened"
+                  [headerStyle]="{ width: '8%' }"
+                  [style]="{ width: '8%' }"
+                  media="(min-width: 769px)"
+                >
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                    <p title="{{ dataItem.created_at | date : 'mediumDate' }}">
+                      {{
+                        dataItem.ticket_open_since == 0
+                          ? "Today"
+                          : dataItem.ticket_open_since == 1
+                          ? dataItem.ticket_open_since + " Day"
+                          : dataItem.ticket_open_since + " Days"
+                      }}
+                    </p>
+                     
+                  </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column
+                  field="days_to_close"
+                  title="Business Days to Close"
+                  [headerStyle]="{ width: '10%' }"
+                  [style]="{ width: '10%' }"
+                  media="(min-width: 769px)"
+                  *ngIf="globals.userRole != 4"
+                >
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                    <p
+                      *ngIf="
+                        dataItem.days_to_close_reminder == null &&
+                        dataItem.days_to_close >= 0 &&
+                        dataItem.status_id != '4'
+                      "
+                      title="{{ dataItem.date_to_close | date : 'mediumDate' }}"
+                    >
+                      {{ dataItem.days_to_close }} Days
+                    </p>
+                    <p
+                      class="text-danger"
+                      *ngIf="
+                        dataItem.days_to_close_reminder != null &&
+                        dataItem.days_to_close >= 0 &&
+                        dataItem.status_id != '4'
+                      "
+                      title="{{ dataItem.date_to_close | date : 'mediumDate' }}"
+                    >
+                      {{
+                        dataItem.days_to_close_reminder == 0
+                          ? "Last Day"
+                          : dataItem.days_to_close_reminder == 1
+                          ? dataItem.days_to_close_reminder + " Day"
+                          : dataItem.days_to_close_reminder + " Days"
+                      }}
+                    </p>
+                    <p
+                      class="text-danger"
+                      *ngIf="
+                        dataItem.days_to_close < 0 && dataItem.status_id != '4'
+                      "
+                      title="{{ dataItem.date_to_close | date : 'mediumDate' }}"
+                    >
+                      Ticket not close within time frame
+                    </p>
+                    <p
+                      *ngIf="dataItem.days_to_close == 1111"
+                      title="{{ dataItem.updated_at | date : 'mediumDate' }}"
+                    >
+                      {{
+                        dataItem.close_days == 0
+                          ? "Today"
+                          : dataItem.close_days == 1
+                          ? dataItem.close_days + " Day"
+                          : dataItem.close_days + " Days"
+                      }}
+                    </p>
+                  </ng-template>
+                </kendo-grid-column>
+  
+                <ng-template kendoPagerTemplate>
+                  <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                  <kendo-pager-numeric-buttons
+                    [buttonCount]="3"
+                  ></kendo-pager-numeric-buttons>
+                  <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                  <kendo-pager-page-sizes
+                    [pageSizes]="pageSizes"
+                  ></kendo-pager-page-sizes>
+                  <kendo-pager-info></kendo-pager-info>
+                </ng-template>
+                <kendo-grid-messages
+                  [pagerItemsPerPage]="'Tickets per page'"
+                  [pagerItems]="'Tickets'"
+                >
+                </kendo-grid-messages>
+              </kendo-grid>
+            </div>
+  
+            <div
+            *ngIf="ticket_list.length == 0"
+            class="col-xl-12 d-flex align-items-center justify-content-center"
+          >
+            <strong class="d-block" style="font-size: 20px"
+              >No Tickets available.</strong>
+          </div>
+      
+            <div *ngIf="ticket_list.length == 0" style="text-align: center">
+              <button
+                *ngIf="!globals.isAdmin"
+                routerLink="add"
+                target="_blank"
+                class="all_btn primary_btn form_btn mt-3"
+              >
+                Open a ticket
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  
+
+
+
+
+
+
+
+
+
+
+

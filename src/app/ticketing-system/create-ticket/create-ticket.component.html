@@ -1,1 +1,218 @@
-<p>create-ticket works!</p>
+<!-- <div class="content_wrap ticket">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="breadcrumb_wrap mb-3">
+            <div class="page_title">
+              <h2 class="mb-0">Open a Ticket</h2>
+            </div>
+            <div class="breadcrumb_block ms-auto">
+              <button
+                routerLink="/tickets"
+                kendoButton
+                class="all_btn secondary_btn form_btn"
+              >
+                Back to Ticket List
+              </button>
+            </div>
+          </div>
+          <div class="page_info mb-3">
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+              ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+              aliquip ex ea commodo consequat.
+            </p>
+          </div>
+        </div>
+        <div class="col-xl-12">
+          <div class="scrollable_area">
+            <form class="k-form" [formGroup]="ticketForm" novalidate>
+              <div class="row">
+                <div class="col-xl-4 mb-4">
+                  <kendo-formfield>
+                    <label class="default_lbl">
+                      <span class="text-danger mendatory">*</span> Request Type
+                    </label>
+                    <kendo-combobox
+                      [data]="ddRequestTypeFiltered"
+                      formControlName="request_id"
+                      textField="name"
+                      valueField="id"
+                      placeholder="Select a Request Type"
+                      (filterChange)="ddFilterRequestType($event)"
+                      [filterable]="true"
+                      [loading]="ddLoading"
+                      (valueChange)="ddRequestTypeChange()"
+                      [valuePrimitive]="true"
+                    ></kendo-combobox>
+                    <app-form-error
+                      [errorMsg]="formErrors.request_id"
+                    ></app-form-error>
+                  </kendo-formfield>
+                </div>
+  
+                <div
+                  class="col-xl-4 mb-4"
+                  *ngIf="RequestId() && ddTopicFiltered.length > 1"
+                >
+                  <kendo-formfield>
+                    <label class="default_lbl">
+                      <span class="text-danger mendatory">*</span> Topic
+                    </label>
+                    <kendo-combobox
+                      [data]="ddTopicFiltered"
+                      formControlName="request_topic_id"
+                      textField="name"
+                      valueField="id"
+                      placeholder="Select a Topic"
+                      [filterable]="true"
+                      (filterChange)="ddFilterTopic($event)"
+                      [loading]="ddLoading"
+                      [valuePrimitive]="true"
+                      (valueChange)="topicChanged()"
+                    ></kendo-combobox>
+                    <app-form-error
+                      [errorMsg]="formErrors.request_topic_id"
+                    ></app-form-error>
+                  </kendo-formfield>
+                </div>
+  
+                <div
+                  class="col-xl-4 mb-4"
+                  *ngIf="TopicId() && ddSubTopicFiltered.length > 1"
+                >
+                  <kendo-formfield>
+                    <label class="default_lbl">
+                      <span class="text-danger mendatory">*</span> Sub Topic
+                    </label>
+                    <kendo-combobox
+                      [data]="ddSubTopicFiltered"
+                      formControlName="request_sub_topic_id"
+                      textField="name"
+                      valueField="id"
+                      placeholder="Select a Sub Topic"
+                      [filterable]="true"
+                      (filterChange)="ddFilterSubTopic($event)"
+                      [loading]="ddLoading"
+                      (valueChange)="subTopicChanged()"
+                      [valuePrimitive]="true"
+                    ></kendo-combobox>
+                    <app-form-error
+                      [errorMsg]="formErrors.request_sub_topic_id"
+                    ></app-form-error>
+                  </kendo-formfield>
+                </div>
+                <ng-container *ngIf="SubTopicId()">
+                  <div class="col-xl-12 mb-4">
+                    <kendo-formfield>
+                      <label class="default_lbl">
+                        <span class="text-danger mendatory">*</span> Summary
+                      </label>
+                      <kendo-textarea
+                        placeholder="Enter summary here"
+                        formControlName="summary"
+                        [rows]="2"
+                        [maxlength]="summaryMaxLength"
+                        resizable="none"
+                      >
+                        <kendo-textarea-suffix class="custom-styling">
+                          <span class="counter">
+                            {{
+                              (ticketForm.value.summary
+                                ? ticketForm.value.summary.length
+                                : 0) +
+                                "/" +
+                                summaryMaxLength +
+                                " characters"
+                            }}
+                          </span>
+                        </kendo-textarea-suffix>
+                      </kendo-textarea>
+                      <app-form-error
+                        [errorMsg]="formErrors.summary"
+                        class="d-block mb-2"
+                      ></app-form-error>
+                    </kendo-formfield>
+                  </div>
+  
+                  <div class="col-xl-12 mb-4">
+                    <kendo-formfield>
+                      <label class="default_lbl">
+                        <span class="text-danger mendatory">*</span> Description
+                      </label>
+                      <kendo-textarea
+                        placeholder="Enter the description about ticket here"
+                        formControlName="description"
+                        [rows]="5"
+                        [maxlength]="descriptionMaxLength"
+                        resizable="none"
+                      >
+                        <kendo-textarea-suffix class="custom-styling">
+                          <span class="counter">
+                            {{
+                              (ticketForm.value.description
+                                ? ticketForm.value.description.length
+                                : 0) +
+                                "/" +
+                                descriptionMaxLength +
+                                " characters"
+                            }}
+                          </span>
+                        </kendo-textarea-suffix>
+                      </kendo-textarea>
+                      <app-form-error
+                        [errorMsg]="formErrors.description"
+                        class="d-block mb-2"
+                      ></app-form-error>
+                    </kendo-formfield>
+                  </div>
+  
+                  <div class="col-12 mb-4">
+                    <kendo-formfield>
+                      <label class="default_lbl">
+                        Attachment <small>{{ globals.allowedFileExtMsg }}</small>
+                      </label>
+                      <kendo-fileselect
+                        formControlName="attachment"
+                        [restrictions]="globals.allowedFileRestriction"
+                        [accept]="globals.allowedFileExtAcceptStr"
+                        [name]="'Attachments'"
+                        [multiple]="false"
+                        #myFileSelect="kendoFileSelect"
+                        (select)="onFileSelect($event)"
+                        (remove)="removeSelectedFileMessage()"
+                      >
+                        <kendo-fileselect-messages
+                          [dropFilesHere]="globals.fileSelectDropFilesHere"
+                          [select]="globals.fileSelectSelect"
+                        >
+                        </kendo-fileselect-messages>
+                      </kendo-fileselect>
+                      <app-form-error
+                        *ngIf="uploadError || uploadError1"
+                        [errorMsg]="'Invalid file'"
+                        class="d-block mb-2"
+                      ></app-form-error>
+                    </kendo-formfield>
+                  </div>
+                  <div
+                    class="col-xl-12 d-flex align-items-center justify-content-center"
+                  >
+                    <button
+                      (click)="validate()"
+                      kendoButton
+                      class="all_btn primary_btn form_btn"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </ng-container>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+   -->

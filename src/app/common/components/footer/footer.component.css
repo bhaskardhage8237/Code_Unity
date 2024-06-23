@@ -1,0 +1,33 @@
+.site-footer {
+    background-color: #b4d8f7;
+    padding: 20px 0;
+  }
+  
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo img {
+    width: 200px;
+    
+  }
+  
+  .contact-info p {
+    margin: 5px 0;
+    color: black;
+  }
+  
+  .social-media a {
+    color: white;
+    margin-right: 10px;
+    font-size: 35px;
+  }
+  
+  .social-media a:hover {
+    color: #007bff;  
+  }
+  

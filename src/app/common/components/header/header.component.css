@@ -1,0 +1,20 @@
+.header{
+    background-color: #E8E8E8;
+    
+ }
+
+ .image-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .image-text {
+    position: absolute;
+    bottom: 233px;  
+    left: 107px;
+    color: black;
+    font-size: large;
+    background-color: rgba(255, 255, 255, 0.7); 
+    padding: 10px; 
+  }
+  

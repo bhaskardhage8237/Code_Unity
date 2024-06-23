@@ -27,6 +27,8 @@ import { PiechartComponent } from './common/components/piechart/piechart.compone
 import { ReactiveFormComponent } from './common/components/reactive-form/reactive-form.component';
 import { TepmlateFormComponent } from './common/components/tepmlate-form/tepmlate-form.component';
 import { PracticeFormComponent } from './common/components/practice-form/practice-form.component';
+import { HeaderComponent } from './common/components/header/header.component';
+import { FooterComponent } from './common/components/footer/footer.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +41,9 @@ import { PracticeFormComponent } from './common/components/practice-form/practic
      PiechartComponent,
      ReactiveFormComponent,
      TepmlateFormComponent,
-     PracticeFormComponent
+     PracticeFormComponent,
+     HeaderComponent,
+     FooterComponent
      
   ],
   imports: [
